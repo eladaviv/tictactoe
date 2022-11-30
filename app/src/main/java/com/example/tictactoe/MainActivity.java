@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String[][] Buttons = new String[3][3];
     private ImageButton[][] imgButtons = new ImageButton[3][3];
     private boolean player1Turn = true;
+    private boolean isGameOver = false;
     private int roundCount;
     private int player1Points;
     private int player2Points;
@@ -56,7 +57,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String vId = getResources().getResourceEntryName(v.getId());
         int i = vId.charAt(vId.length()-2)-48;
         int j = vId.charAt(vId.length()-1)-48;
-        if (!Buttons[i][j].equals("empty")){
+
+        if (isGameOver||!Buttons[i][j].equals("empty")){
             return;
         }
 
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         roundCount++;
 
         if (checkForWin()) {
+            isGameOver = true;
             if (player1Turn) {
                 player1Wins();
             } else {
@@ -102,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Buttons[i][j] = "empty";
             }
         }
+        isGameOver = false;
         newGameBtn.setVisibility(View.INVISIBLE);
         linearLayout.setForeground(getDrawable(R.drawable.empty));
         imageViewNotification.setImageResource(R.drawable.xplay);
@@ -110,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private boolean checkForWin() {
-        return true;
+        return checkRows()||checkColumns()||checkDiagonal();
     }
 
     private void player1Wins() {
@@ -133,4 +137,67 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    private boolean checkRows() {
+        if (Buttons[0][0].equals(Buttons[0][1])
+                && Buttons[0][0].equals(Buttons[0][2])
+                && !Buttons[0][0].equals("empty"))
+        {
+            linearLayout.setForeground(getDrawable(R.drawable.markr3));
+            return true;
+        }
+        if (Buttons[1][0].equals(Buttons[1][1])
+                && Buttons[1][0].equals(Buttons[1][2])
+                && !Buttons[1][0].equals("empty"))
+        {
+            linearLayout.setForeground(getDrawable(R.drawable.markr4));
+            return true;
+        }
+        if (Buttons[2][0].equals(Buttons[2][1])
+                && Buttons[2][0].equals(Buttons[2][2])
+                && !Buttons[2][0].equals("empty"))
+        {
+            linearLayout.setForeground(getDrawable(R.drawable.markr5));
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkColumns() {
+        if (Buttons[0][0].equals(Buttons[1][0])
+                && Buttons[0][0].equals(Buttons[2][0])
+                && !Buttons[0][0].equals("empty")) {
+            linearLayout.setForeground(getDrawable(R.drawable.mark3));
+            return true;
+        }
+        if (Buttons[0][1].equals(Buttons[1][1])
+                && Buttons[0][1].equals(Buttons[2][1])
+                && !Buttons[0][1].equals("empty")) {
+            linearLayout.setForeground(getDrawable(R.drawable.mark4));
+            return true;
+        }
+        if (Buttons[0][2].equals(Buttons[1][2])
+                && Buttons[0][2].equals(Buttons[2][2])
+                && !Buttons[0][2].equals("empty")) {
+            linearLayout.setForeground(getDrawable(R.drawable.mark5));
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkDiagonal() {
+        if (Buttons[0][0].equals(Buttons[1][1])
+                && Buttons[0][0].equals(Buttons[2][2])
+                && !Buttons[0][0].equals("empty")) {
+            linearLayout.setForeground(getDrawable(R.drawable.mark1));
+            return true;
+        }
+
+        if (Buttons[0][2].equals(Buttons[1][1])
+                && Buttons[0][2].equals(Buttons[2][0])
+                && !Buttons[0][2].equals("empty")) {
+            linearLayout.setForeground(getDrawable(R.drawable.mark2));
+            return true;
+        }
+        return false;
+    }
 }
