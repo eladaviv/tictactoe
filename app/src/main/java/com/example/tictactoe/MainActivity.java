@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         newGameBtn.setVisibility(View.INVISIBLE);
         linearLayout.setForeground(getDrawable(R.drawable.empty));
+        imageViewNotification.setImageResource(R.drawable.xplay);
         roundCount = 0;
         player1Turn = true;
     }
@@ -115,16 +116,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void player1Wins() {
         player1Points++;
         updatePointsText();
+        imageViewNotification.setImageResource(R.drawable.xwin);
         newGameBtn.setVisibility(View.VISIBLE);
     }
 
     private void player2Wins() {
         player2Points++;
         updatePointsText();
+        imageViewNotification.setImageResource(R.drawable.owin);
         newGameBtn.setVisibility(View.VISIBLE);
     }
 
     private void draw() {
+        imageViewNotification.setImageResource(R.drawable.nowin);
         newGameBtn.setVisibility(View.VISIBLE);
     }
+
+
 }
